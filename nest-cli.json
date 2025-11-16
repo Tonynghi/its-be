@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/its-be/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/its-be/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/its-be",
+  "projects": {
+    "iam": {
+      "type": "application",
+      "root": "apps/iam",
+      "entryFile": "main",
+      "sourceRoot": "apps/iam/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/iam/tsconfig.app.json"
+      }
+    },
+    "its-be": {
+      "type": "application",
+      "root": "apps/its-be",
+      "entryFile": "main",
+      "sourceRoot": "apps/its-be/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/its-be/tsconfig.app.json"
+      }
+    },
+    "learning-content": {
+      "type": "application",
+      "root": "apps/learning-content",
+      "entryFile": "main",
+      "sourceRoot": "apps/learning-content/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/learning-content/tsconfig.app.json"
+      }
+    },
+    "learning-personalization": {
+      "type": "application",
+      "root": "apps/learning-personalization",
+      "entryFile": "main",
+      "sourceRoot": "apps/learning-personalization/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/learning-personalization/tsconfig.app.json"
+      }
+    }
+  }
+}
