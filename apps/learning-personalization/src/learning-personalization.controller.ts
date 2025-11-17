@@ -3,7 +3,9 @@ import { LearningPersonalizationService } from './learning-personalization.servi
 
 @Controller()
 export class LearningPersonalizationController {
-  constructor(private readonly learningPersonalizationService: LearningPersonalizationService) {}
+  constructor(
+    private readonly learningPersonalizationService: LearningPersonalizationService,
+  ) {}
 
   @Get()
   getHello(): string {

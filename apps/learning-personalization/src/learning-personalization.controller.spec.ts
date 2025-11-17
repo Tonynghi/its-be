@@ -11,7 +11,10 @@ describe('LearningPersonalizationController', () => {
       providers: [LearningPersonalizationService],
     }).compile();
 
-    learningPersonalizationController = app.get<LearningPersonalizationController>(LearningPersonalizationController);
+    learningPersonalizationController =
+      app.get<LearningPersonalizationController>(
+        LearningPersonalizationController,
+      );
   });
 
   describe('root', () => {
