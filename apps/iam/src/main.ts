@@ -1,11 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { IamModule } from './iam.module';
+import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    IamModule,
-    { transport: Transport.TCP, options: { port: 8001 } },
+    AppModule,
+    {
+      transport: Transport.KAFKA,
+      options: {
+        client: {
+          clientId: 'iam-service',
+          brokers: ['localhost:9092'],
+        },
+        consumer: {
+          groupId: 'iam-service-consumer',
+        },
+      },
+    },
   );
   await app.listen();
 }

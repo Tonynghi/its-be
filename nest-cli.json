@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/its-be/src",
+  "sourceRoot": "apps/gateway/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/its-be/tsconfig.app.json"
+    "tsConfigPath": "apps/gateway/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/its-be",
+  "root": "apps/gateway",
   "projects": {
     "iam": {
       "type": "application",
@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/iam/tsconfig.app.json"
       }
     },
-    "its-be": {
+    "gateway": {
       "type": "application",
-      "root": "apps/its-be",
+      "root": "apps/gateway",
       "entryFile": "main",
-      "sourceRoot": "apps/its-be/src",
+      "sourceRoot": "apps/gateway/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/its-be/tsconfig.app.json"
+        "tsConfigPath": "apps/gateway/tsconfig.app.json"
       }
     },
     "learning-content": {

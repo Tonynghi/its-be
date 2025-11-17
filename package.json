@@ -8,25 +8,28 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "concurrently \"yarn start:its-be\" \"yarn start:iam\" \"yarn start:learning-content\" \"yarn start:learning-personalization\" ",
-    "start:its-be": "nest start its-be --watch",
+    "start": "concurrently \"yarn start:gateway\" \"yarn start:iam\" \"yarn start:learning-content\" \"yarn start:learning-personalization\" ",
+    "start:gateway": "nest start gateway --watch",
     "start:iam": "nest start iam --watch",
     "start:learning-content": "nest start learning-content --watch",
     "start:learning-personalization": "nest start learning-personalization --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/its-be/main",
+    "start:prod": "node dist/apps/gateway/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/its-be/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/gateway/test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
+    "kafkajs": "^2.2.4",
+    "mongoose": "^8.19.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
