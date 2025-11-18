@@ -1,8 +1,8 @@
 import { IsString } from 'class-validator';
-import { Role } from '../interfaces';
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../interfaces';
 
-export class CreateUserRequestDto {
+export class SignUpRequestDto {
   @IsString()
   name: string;
 

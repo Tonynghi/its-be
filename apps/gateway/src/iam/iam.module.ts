@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersController } from './controllers';
-import { UsersProducer } from './producers';
+import { AuthProducer, UsersProducer } from './producers';
+import { AuthController } from './controllers/auth.controller';
 
 @Module({
   imports: [
@@ -15,14 +16,14 @@ import { UsersProducer } from './producers';
             brokers: ['localhost:9092'],
           },
           consumer: {
-            groupId: 'api-gateway-iam-consumer',
+            groupId: 'iam-consumer',
           },
         },
       },
     ]),
   ],
-  controllers: [UsersController],
-  providers: [UsersProducer],
-  exports: [UsersProducer],
+  controllers: [UsersController, AuthController],
+  providers: [UsersProducer, AuthProducer],
+  exports: [UsersProducer, AuthProducer],
 })
 export class IamModule {}

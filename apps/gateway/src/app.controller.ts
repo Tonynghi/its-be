@@ -9,9 +9,4 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-
-  @Get('test-kafka')
-  testKafka(): string {
-    return 'Test Kafka Endpoint';
-  }
 }

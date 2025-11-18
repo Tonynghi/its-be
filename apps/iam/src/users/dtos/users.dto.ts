@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { Role } from '../interfaces';
+import { Role } from '../schemas';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserRequestDto {
