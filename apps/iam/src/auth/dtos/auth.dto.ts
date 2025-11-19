@@ -16,3 +16,11 @@ export class SignUpRequestDto {
   @ApiProperty({ enum: Role, default: Role.STUDENT })
   role: Role;
 }
+
+export class SignInRequestDto {
+  @IsString()
+  email: string;
+
+  @IsString()
+  password: string;
+}

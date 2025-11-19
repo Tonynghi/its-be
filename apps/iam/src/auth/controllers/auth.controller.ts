@@ -12,4 +12,9 @@ export class AuthController {
   async signUp(@Payload() message: SignUpRequestDto) {
     return await this.authService.signUp(message);
   }
+
+  @MessagePattern(AUTH_TOPICS.SIGN_IN)
+  async signIn(@Payload() message: SignUpRequestDto) {
+    return await this.authService.signIn(message);
+  }
 }
