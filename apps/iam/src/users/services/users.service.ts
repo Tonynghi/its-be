@@ -6,7 +6,7 @@ import { CreateUserRequestDto } from '../dtos';
 import { UsersCollectionName } from '../../constants';
 import * as brcypt from 'bcrypt';
 import { RpcException } from '@nestjs/microservices';
-import { authErrors } from 'common/errors';
+import { authErrors } from 'common';
 
 @Injectable()
 export class UsersService {
@@ -47,6 +47,8 @@ export class UsersService {
   }
 
   async getUserById(id: Types.ObjectId): Promise<UserDocument | null> {
-    return await this.userModel.findById(id);
+    const user = await this.userModel.findById(id);
+
+    return user;
   }
 }

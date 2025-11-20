@@ -8,7 +8,7 @@ import {
 import type { ClientKafkaProxy, RpcException } from '@nestjs/microservices';
 import { AUTH_TOPICS } from 'common';
 import { SignInRequestDto, SignUpRequestDto } from '../dtos';
-import { authErrors } from 'common/errors';
+import { authErrors } from 'common';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()

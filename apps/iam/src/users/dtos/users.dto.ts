@@ -1,6 +1,7 @@
 import { IsString } from 'class-validator';
 import { Role } from '../schemas';
 import { ApiProperty } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 
 export class CreateUserRequestDto {
   @IsString()
@@ -15,4 +16,8 @@ export class CreateUserRequestDto {
   @IsString()
   @ApiProperty({ enum: Role, default: Role.STUDENT })
   role: Role;
+}
+
+export class GetUserByIdRequestDto {
+  id: Types.ObjectId;
 }

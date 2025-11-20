@@ -6,7 +6,7 @@ import { UsersService } from '../../users/services';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from '../schemas';
 import { RpcException } from '@nestjs/microservices';
-import { authErrors } from 'common/errors';
+import { authErrors } from 'common';
 
 @Injectable()
 export class AuthService {
