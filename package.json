@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "docker:up": "docker-compose up -d",
     "start": "concurrently \"yarn start:gateway\" \"yarn start:iam\" \"yarn start:learning-content\" \"yarn start:learning-personalization\" ",
     "start:gateway": "nest start gateway --watch",
     "start:iam": "nest start iam --watch",
