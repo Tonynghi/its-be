@@ -1,6 +1,6 @@
 # ITS-BE: Intelligent Tutoring System Backend
 
-This project is the backend for an Intelligent Tutoring System (ITS), built with the [NestJS](https://nestjs.com/) framework using TypeScript. It is designed as a scalable, modular microservices architecture to support authentication, user management, learning content, and personalization features for educational platforms.
+This project is the backend for an Intelligent Tutoring System (ITS), a project in Software Architecture (HK251) - a HCMUT course, built with the [NestJS](https://nestjs.com/) framework using TypeScript. It is designed as a scalable, modular microservices architecture to support authentication, user management, learning content, and personalization features.
 
 ## Project Structure
 
@@ -23,7 +23,7 @@ This project is the backend for an Intelligent Tutoring System (ITS), built with
 Install dependencies:
 
 ```bash
-yarn install
+yarn
 ```
 
 ## Running the Project
@@ -43,15 +43,11 @@ yarn start
 This will start the following modules in watch mode:
 
 - IAM (Identity and Access Management)
-- Learning Content
-- Learning Personalization
+- Learning Content (Incomplete at the moment)
+- Learning Personalization (Incomplete at the moment)
 
-### Individual Service (example: IAM)
+This will take sometime for the service to start completely as it involves multiple microservices at the same time. Wait until a log about "Nest app has been started..." and you are good to go.
 
-```bash
-yarn start:iam
-```
+# Author
 
-## License
-
-UNLICENSED
+Group 4
