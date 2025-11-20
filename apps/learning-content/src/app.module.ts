@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { IamModule } from './iam/iam.module';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { LearningContentModule } from './learning-content/learning-content.module';
 
 @Module({
@@ -11,18 +10,12 @@ import { LearningContentModule } from './learning-content/learning-content.modul
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    JwtModule.registerAsync({
-      global: true,
-      imports: [ConfigModule],
-      inject: [ConfigService],
+    MongooseModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: 2592000,
-        },
+        uri: config.get<string>('MONGO_URI'),
       }),
+      inject: [ConfigService],
     }),
-    IamModule,
     LearningContentModule,
   ],
   controllers: [AppController],

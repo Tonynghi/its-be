@@ -1,11 +1,24 @@
 import { NestFactory } from '@nestjs/core';
-import { LearningContentModule } from './learning-content.module';
+import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    LearningContentModule,
-    { transport: Transport.TCP, options: { port: 8002 } },
+    AppModule,
+    {
+      transport: Transport.KAFKA,
+      options: {
+        client: {
+          clientId: 'learning-content-service',
+          brokers: ['localhost:9092'],
+        },
+        consumer: {
+          groupId: 'learning-content-consumer',
+        },
+      },
+      logger: new Logger('Learning Content Microservice'),
+    },
   );
   await app.listen();
 }
