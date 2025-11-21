@@ -3,7 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UsersController } from './controllers';
 import { AuthProducer, UsersProducer } from './producers';
 import { AuthController } from './controllers/auth.controller';
-import { AuthGuard } from './guards';
+import { UserGuard } from './guards';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { AuthGuard } from './guards';
     ]),
   ],
   controllers: [UsersController, AuthController],
-  providers: [UsersProducer, AuthProducer, AuthGuard],
-  exports: [UsersProducer, AuthProducer, AuthGuard],
+  providers: [UsersProducer, AuthProducer, UserGuard],
+  exports: [UsersProducer, AuthProducer, UserGuard],
 })
 export class IamModule {}

@@ -1,14 +1,6 @@
-import {
-  Controller,
-  Post,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
 import { LearningContentProducer } from '../producers';
-import { CurrentUser } from '../../iam/decorators';
-import { Role, type JwtPayload } from '../../iam/schemas';
-import { learningContentErrors } from 'common';
-import { AuthGuard } from '../../iam/guards';
+import { TutorGuard } from '../../iam/guards';
 
 @Controller('content')
 export class LearningContentController {
@@ -17,13 +9,8 @@ export class LearningContentController {
   ) {}
 
   @Post('/')
-  @UseGuards(AuthGuard)
-  postLearningContent(@CurrentUser() user: JwtPayload) {
-    if (user.role !== Role.TUTOR) {
-      throw new UnauthorizedException(
-        learningContentErrors.NOT_AUTHORIZED_TO_POST_CONTENT,
-      );
-    }
+  @UseGuards(TutorGuard)
+  postLearningContent() {
     return this.learningContentProducer.postContent();
   }
 }

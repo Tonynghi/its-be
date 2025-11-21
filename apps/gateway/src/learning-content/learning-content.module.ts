@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AuthGuard } from '../iam/guards';
+import { TutorGuard } from '../iam/guards';
 import { LearningContentController } from './controllers/learning-content.controller';
 import { LearningContentProducer } from './producers';
 
@@ -23,7 +23,7 @@ import { LearningContentProducer } from './producers';
     ]),
   ],
   controllers: [LearningContentController],
-  providers: [LearningContentProducer, AuthGuard],
+  providers: [LearningContentProducer, TutorGuard],
   exports: [LearningContentProducer],
 })
 export class LearningContentModule {}
