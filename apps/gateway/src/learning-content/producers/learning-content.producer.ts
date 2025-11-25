@@ -1,6 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
-import type { ClientKafkaProxy } from '@nestjs/microservices';
-import { LEARNING_CONTENT_TOPICS } from 'common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import type { ClientKafkaProxy, RpcException } from '@nestjs/microservices';
+import { LEARNING_CONTENT_TOPICS, subjectsErrors } from 'common';
+import { GetUploadUrlRequestDto, GetUploadUrlResponseDto } from '../dtos';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class LearningContentProducer {
@@ -10,11 +12,39 @@ export class LearningContentProducer {
   ) {}
 
   async onModuleInit() {
-    const topics = [LEARNING_CONTENT_TOPICS.POST_CONTENT];
+    const topics = [
+      LEARNING_CONTENT_TOPICS.GET_UPLOAD_CONTENT_URL,
+      LEARNING_CONTENT_TOPICS.POST_CONTENT,
+    ];
     for (const topic of topics) {
       this.learningContentClient.subscribeToResponseOf(topic);
     }
     await this.learningContentClient.connect();
+  }
+
+  public async getUploadContentUrl(
+    getUploadUrlRequestDto: GetUploadUrlRequestDto,
+  ) {
+    try {
+      const response = await lastValueFrom(
+        this.learningContentClient.send<GetUploadUrlResponseDto>(
+          LEARNING_CONTENT_TOPICS.GET_UPLOAD_CONTENT_URL,
+          getUploadUrlRequestDto,
+        ),
+      );
+      return response;
+    } catch (error) {
+      const message = (error as RpcException).message;
+      if (!message) {
+        throw new Error('Unknown error occurred during topic creation');
+      }
+
+      if (message === subjectsErrors.NOT_FOUND_BY_ID) {
+        throw new NotFoundException(message);
+      }
+
+      throw new Error(message);
+    }
   }
 
   public postContent() {
