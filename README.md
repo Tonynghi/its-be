@@ -20,7 +20,14 @@ This project is the backend for an Intelligent Tutoring System (ITS), a project 
 
 ## Setup
 
-Install dependencies:
+## Setup environment
+
+Make sure you have these files in your project since they are essential to running the project
+
+- **.env**: Environment variables for project
+- **gcp-key.json**: Key file for Google Cloud Storage connection
+
+## Install dependencies:
 
 ```bash
 yarn
