@@ -14,7 +14,13 @@ export class LearningContentService {
     private readonly subjectsService: SubjectsService,
   ) {}
 
-  private constructContentUrl(fileName: string, subjectId: string) {
+  private constructContentUrl({
+    fileName,
+    subjectId,
+  }: {
+    fileName: string;
+    subjectId: string;
+  }) {
     return `learning-content/${subjectId}/${fileName}`;
   }
 
@@ -29,7 +35,7 @@ export class LearningContentService {
       throw new RpcException(subjectsErrors.NOT_FOUND_BY_ID);
     }
 
-    const objectName = this.constructContentUrl(subjectId, fileName);
+    const objectName = this.constructContentUrl({ fileName, subjectId });
     return await this.storageService.getWriteSignedUrl(objectName, mimeType);
   }
 
