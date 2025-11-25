@@ -2,9 +2,10 @@ import { Storage } from '@google-cloud/storage';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import path from 'path';
+import { StorageService } from '../storage.interface';
 
 @Injectable()
-export class StorageService {
+export class GCSService implements StorageService {
   private storage: Storage;
 
   constructor(@Inject() configService: ConfigService) {
@@ -29,10 +30,10 @@ export class StorageService {
     buffer: Buffer,
     bucketName: string,
     mimeType: string,
-    objectName: string,
+    fileName: string,
   ) {
     const bucket = this.storage.bucket(bucketName);
-    const file = bucket.file(objectName);
+    const file = bucket.file(fileName);
 
     await file.save(buffer, {
       resumable: false,
@@ -40,7 +41,7 @@ export class StorageService {
       metadata: { contentType: mimeType },
     });
 
-    return { bucket: bucketName, objectName };
+    return { bucket: bucketName, fileName };
   }
 
   async getSignedUrl(objectName: string, bucketName: string): Promise<string> {

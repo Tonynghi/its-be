@@ -8,7 +8,7 @@ export enum Role {
   STUDENT = 'STUDENT',
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Prop({ type: String, required: true })
   public name: string;
@@ -21,12 +21,6 @@ export class User {
 
   @Prop({ type: String, required: true, default: Role.STUDENT, enum: Role })
   public role: Role;
-
-  @Prop({ type: Date, default: Date.now })
-  public createdAt: Date;
-
-  @Prop({ type: Date, default: Date.now })
-  public updatedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

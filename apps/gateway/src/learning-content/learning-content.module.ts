@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TutorGuard } from '../iam/guards';
 import { LearningContentController } from './controllers/learning-content.controller';
-import { LearningContentProducer } from './producers';
+import {
+  LearningContentProducer,
+  SubjectsProducer,
+  TopicsProducer,
+} from './producers';
+import { SubjectsController, TopicsController } from './controllers';
 
 @Module({
   imports: [
@@ -22,8 +27,17 @@ import { LearningContentProducer } from './producers';
       },
     ]),
   ],
-  controllers: [LearningContentController],
-  providers: [LearningContentProducer, TutorGuard],
-  exports: [LearningContentProducer],
+  controllers: [
+    LearningContentController,
+    SubjectsController,
+    TopicsController,
+  ],
+  providers: [
+    LearningContentProducer,
+    TutorGuard,
+    SubjectsProducer,
+    TopicsProducer,
+  ],
+  exports: [LearningContentProducer, SubjectsProducer, TopicsProducer],
 })
 export class LearningContentModule {}

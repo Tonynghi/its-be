@@ -13,7 +13,7 @@ import { StorageModule } from './storage/storage.module';
     }),
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGO_URI'),
+        uri: config.get<string>('MONGO_URI_LEARNING_CONTENT'),
       }),
       inject: [ConfigService],
     }),

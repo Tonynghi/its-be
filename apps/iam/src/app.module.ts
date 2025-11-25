@@ -13,7 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGO_URI'),
+        uri: config.get<string>('MONGO_URI_IAM'),
       }),
       inject: [ConfigService],
     }),

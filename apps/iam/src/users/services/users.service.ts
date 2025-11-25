@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas';
 import { Model, Types } from 'mongoose';
 import { CreateUserRequestDto } from '../dtos';
-import { UsersCollectionName } from '../../constants';
+import { USERS_COLLECTION_NAME } from '../../constants';
 import * as brcypt from 'bcrypt';
 import { RpcException } from '@nestjs/microservices';
 import { authErrors } from 'common';
@@ -11,7 +11,7 @@ import { authErrors } from 'common';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(UsersCollectionName) private userModel: Model<User>,
+    @InjectModel(USERS_COLLECTION_NAME) private userModel: Model<User>,
   ) {}
 
   async createUser(dto: CreateUserRequestDto): Promise<UserDocument> {

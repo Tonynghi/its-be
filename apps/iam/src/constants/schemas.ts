@@ -1,1 +1,1 @@
-export const UsersCollectionName = 'users';
+export const USERS_COLLECTION_NAME = 'users';

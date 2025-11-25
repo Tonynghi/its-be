@@ -28,6 +28,14 @@ yarn
 
 ## Running the Project
 
+Make sure to have your Docker Desktop running before following for the steps below.
+
+### Pull the Kafka docker image
+
+```bash
+docker pull wurstmeister/zookeeper:latest
+```
+
 ### Start the docker image
 
 ```bash
