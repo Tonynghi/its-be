@@ -2,7 +2,12 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { LEARNING_CONTENT_TOPICS } from 'common/topics';
 import { LearningContentService } from '../services';
-import { GetUploadUrlRequestDto, GetUploadUrlResponseDto } from '../dtos';
+import {
+  GetUploadUrlRequestDto,
+  GetUploadUrlResponseDto,
+  PostContentRequestDto,
+  PostContentResponseDto,
+} from '../dtos';
 import { plainToInstance } from 'class-transformer';
 
 @Controller()
@@ -13,11 +18,12 @@ export class LearningContentController {
 
   @MessagePattern(LEARNING_CONTENT_TOPICS.GET_UPLOAD_CONTENT_URL)
   async getUploadContentUrl(@Payload() message: GetUploadUrlRequestDto) {
-    const url = await this.learningContentService.getContentUploadUrl(message);
+    const { presignedUrl, objectName, bucket } =
+      await this.learningContentService.getContentUploadUrl(message);
 
     const response = plainToInstance(
       GetUploadUrlResponseDto,
-      { presignedUrl: url },
+      { presignedUrl, objectName, bucket },
       { excludeExtraneousValues: true },
     );
 
@@ -25,7 +31,17 @@ export class LearningContentController {
   }
 
   @MessagePattern(LEARNING_CONTENT_TOPICS.POST_CONTENT)
-  postContent() {
-    return this.learningContentService.postContent();
+  async postContent(@Payload() message: PostContentRequestDto) {
+    const { _id, name, description, bucket, objectName } =
+      await this.learningContentService.postContent(message);
+    const response = plainToInstance(
+      PostContentResponseDto,
+      { _id, name, description, bucket, objectName },
+      {
+        excludeExtraneousValues: true,
+      },
+    );
+
+    return response;
   }
 }

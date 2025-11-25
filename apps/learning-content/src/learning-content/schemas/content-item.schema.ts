@@ -21,6 +21,12 @@ export class ContentItem {
   @Prop({ type: String })
   public description: string;
 
+  @Prop({ type: String })
+  public bucket: string;
+
+  @Prop({ type: String })
+  public objectName: string;
+
   @Prop({ type: Types.ObjectId, required: true, ref: SUBJECTS_COLLECTION_NAME })
   public subject: Types.ObjectId;
 
