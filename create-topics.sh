@@ -8,7 +8,8 @@ TOPICS=(
   "auth.sign_in"
   "user.create"
   "user.get_by_id"
-  "subjects.create_topic"
+  "subjects.get_all_subjects"
+  "subjects.create_subject"
   "topics.create_topic"
   "learning_content.get_learning_contents"
   "learning_content.get_upload_content_url"
@@ -17,10 +18,10 @@ TOPICS=(
 
 echo "Waiting for Kafka broker at $BROKER..."
 
-until nc -z "$(echo $BROKER | cut -d: -f1)" "$(echo $BROKER | cut -d: -f2)"; do
-  echo "Kafka is unavailable - sleeping"
-  sleep 2
-done
+# until nc -z "$(echo $BROKER | cut -d: -f1)" "$(echo $BROKER | cut -d: -f2)"; do
+#   echo "Kafka is unavailable - sleeping"
+#   sleep 2
+# done
 
 echo "Kafka is up. Creating topics..."
 

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { ClientKafkaProxy } from '@nestjs/microservices';
 import { SUBJECTS_TOPICS } from 'common';
 import { CreateSubjectRequestDto } from '../dtos';
+import { GetAllSubjectsRequestDto } from 'apps/learning-content/src/learning-content/dtos';
 
 @Injectable()
 export class SubjectsProducer {
@@ -11,11 +12,18 @@ export class SubjectsProducer {
   ) {}
 
   async onModuleInit() {
-    const topics = [SUBJECTS_TOPICS.CREATE_SUBJECT];
+    const topics = Object.values(SUBJECTS_TOPICS);
     for (const topic of topics) {
       this.learningContentClient.subscribeToResponseOf(topic);
     }
     await this.learningContentClient.connect();
+  }
+
+  public getAllSubjects(request: GetAllSubjectsRequestDto) {
+    return this.learningContentClient.send(
+      SUBJECTS_TOPICS.GET_ALL_SUBJECTS,
+      request,
+    );
   }
 
   public createSubject(createSubjectRequest: CreateSubjectRequestDto) {
