@@ -1,4 +1,4 @@
 export const AUTH_TOPICS = {
-  SIGN_UP: 'auth.sign-up',
-  SIGN_IN: 'auth.sign-in',
+  SIGN_UP: 'auth.sign_up',
+  SIGN_IN: 'auth.sign_in',
 };

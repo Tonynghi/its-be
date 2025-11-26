@@ -37,16 +37,16 @@ yarn
 
 Make sure to have your Docker Desktop running before following for the steps below.
 
-### Pull the Kafka docker image
-
-```bash
-docker pull wurstmeister/zookeeper:latest
-```
-
 ### Start the docker image
 
 ```bash
-yarn docker:up
+docker compose up -d
+```
+
+### Create required topics
+
+```bash
+./create-topics.sh
 ```
 
 ### Development (all services concurrently)

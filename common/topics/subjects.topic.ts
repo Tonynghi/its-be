@@ -1,3 +1,3 @@
 export const SUBJECTS_TOPICS = {
-  CREATE_SUBJECT: 'subjects.create-topic',
+  CREATE_SUBJECT: 'subjects.create_topic',
 };
