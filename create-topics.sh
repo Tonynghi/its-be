@@ -11,6 +11,7 @@ TOPICS=(
   "subjects.get_all_subjects"
   "subjects.create_subject"
   "topics.create_topic"
+  "topics.get_all_topics"
   "learning_content.get_learning_contents"
   "learning_content.get_upload_content_url"
   "learning_content.post_content"

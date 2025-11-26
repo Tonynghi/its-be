@@ -1,6 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CreateTopicRequestDto, CreateTopicResponsetDto } from '../dtos';
+import {
+  CreateTopicRequestDto,
+  CreateTopicResponsetDto,
+  GetAllTopicsRequestDto,
+  GetAllTopicsResponseDto,
+} from '../dtos';
 import { plainToInstance } from 'class-transformer';
 import { TopicsService } from '../services';
 import { TOPICS_TOPICS } from 'common';
@@ -14,6 +19,18 @@ export class TopicsController {
     const topic = await this.topicsService.createTopic(message);
 
     const response = plainToInstance(CreateTopicResponsetDto, topic, {
+      excludeExtraneousValues: true,
+    });
+    return response;
+  }
+
+  @MessagePattern(TOPICS_TOPICS.GET_ALL_TOPICS)
+  async getAllTopics(@Payload() message: GetAllTopicsRequestDto) {
+    const request = plainToInstance(GetAllTopicsRequestDto, message);
+
+    const result = await this.topicsService.getAllTopics(request);
+
+    const response = plainToInstance(GetAllTopicsResponseDto, result, {
       excludeExtraneousValues: true,
     });
     return response;

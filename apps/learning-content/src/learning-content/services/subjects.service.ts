@@ -22,7 +22,7 @@ export class SubjectsService {
   }
 
   public async getAllSubjects(query: SubjectFilterQueryRequest) {
-    const { search, pageNumber, pageSize } = query;
+    const { search, currentPage, pageSize } = query;
 
     const filter: FilterQuery<SubjectDocument> = {
       $and: [
@@ -36,7 +36,7 @@ export class SubjectsService {
 
     const totalItems = await this.subjectModel.countDocuments(filter);
     const totalPages = Math.ceil(totalItems / pageSize);
-    const skip = (pageNumber - 1) * pageSize;
+    const skip = (currentPage - 1) * pageSize;
 
     const results = await this.subjectModel
       .aggregate<SubjectDocument[]>([
@@ -56,7 +56,7 @@ export class SubjectsService {
     return {
       totalPages,
       pageSize,
-      currentPage: pageNumber,
+      currentPage,
       totalItems,
       results,
     };

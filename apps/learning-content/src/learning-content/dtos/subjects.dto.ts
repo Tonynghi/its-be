@@ -53,7 +53,7 @@ export class GetAllSubjectsRequestDto {
   )
   @IsNumber()
   @IsPositive()
-  public pageNumber: number;
+  public currentPage: number;
 
   @IsOptional()
   @Transform(({ value }) =>

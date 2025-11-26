@@ -3,6 +3,7 @@ import type { ClientKafkaProxy, RpcException } from '@nestjs/microservices';
 import { subjectsErrors, TOPICS_TOPICS } from 'common';
 import { CreateTopicRequestDto, CreateTopicResponsetDto } from '../dtos';
 import { lastValueFrom } from 'rxjs';
+import { TopicsFilterQueryRequest } from '../interfaces';
 
 @Injectable()
 export class TopicsProducer {
@@ -12,7 +13,7 @@ export class TopicsProducer {
   ) {}
 
   async onModuleInit() {
-    const topics = [TOPICS_TOPICS.CREATE_TOPIC];
+    const topics = Object.values(TOPICS_TOPICS);
     for (const topic of topics) {
       this.learningContentClient.subscribeToResponseOf(topic);
     }
@@ -40,5 +41,9 @@ export class TopicsProducer {
 
       throw new Error(message);
     }
+  }
+
+  public getAllTopics(query: TopicsFilterQueryRequest) {
+    return this.learningContentClient.send(TOPICS_TOPICS.GET_ALL_TOPICS, query);
   }
 }
