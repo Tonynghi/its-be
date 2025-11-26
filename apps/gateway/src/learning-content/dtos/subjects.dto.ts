@@ -1,16 +1,17 @@
+import { Expose, Transform, Type } from 'class-transformer';
+import { IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { stringToNumber } from '../../utils';
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
   PAGE_SIZE_MIN,
   PAGE_SIZE_MAX,
 } from '../../constants';
-import { stringToNumber } from '../../utils';
-import { Expose, Transform, Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { Types } from 'mongoose';
 
 export class SubjectDto {
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
   @Expose()
@@ -22,12 +23,12 @@ export class SubjectDto {
   @IsOptional()
   description: string;
 }
-
 export class CreateSubjectRequestDto {
   @IsString()
   name: string;
 
   @IsString()
+  @IsOptional()
   description: string;
 }
 
@@ -42,6 +43,7 @@ export class CreateSubjectResponseDto {
 
   @Expose()
   @IsString()
+  @IsOptional()
   description: string;
 }
 

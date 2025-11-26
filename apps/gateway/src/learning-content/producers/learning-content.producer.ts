@@ -8,6 +8,7 @@ import {
   PostContentResponseDto,
 } from '../dtos';
 import { lastValueFrom } from 'rxjs';
+import { LearningContentsFilterQueryRequest } from '../interfaces';
 
 @Injectable()
 export class LearningContentProducer {
@@ -17,10 +18,7 @@ export class LearningContentProducer {
   ) {}
 
   async onModuleInit() {
-    const topics = [
-      LEARNING_CONTENT_TOPICS.GET_UPLOAD_CONTENT_URL,
-      LEARNING_CONTENT_TOPICS.POST_CONTENT,
-    ];
+    const topics = Object.values(LEARNING_CONTENT_TOPICS);
     for (const topic of topics) {
       this.learningContentClient.subscribeToResponseOf(topic);
     }
@@ -77,5 +75,12 @@ export class LearningContentProducer {
 
       throw new Error(message);
     }
+  }
+
+  public getAllLearningContents(query: LearningContentsFilterQueryRequest) {
+    return this.learningContentClient.send(
+      LEARNING_CONTENT_TOPICS.GET_LEARNING_CONTENTS,
+      query,
+    );
   }
 }

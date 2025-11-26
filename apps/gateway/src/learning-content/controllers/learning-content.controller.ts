@@ -1,7 +1,8 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { LearningContentProducer } from '../producers';
-import { TutorGuard } from '../../iam/guards';
+import { TutorGuard, UserGuard } from '../../iam/guards';
 import { GetUploadUrlRequestDto, PostContentRequestDto } from '../dtos';
+import type { LearningContentsFilterQueryRequest } from '../interfaces';
 
 @Controller('content')
 export class LearningContentController {
@@ -19,5 +20,11 @@ export class LearningContentController {
   @UseGuards(TutorGuard)
   async postLearningContent(@Body() request: PostContentRequestDto) {
     return await this.learningContentProducer.postContent(request);
+  }
+
+  @Get('/')
+  @UseGuards(UserGuard)
+  getAllLearningContents(@Query() query: LearningContentsFilterQueryRequest) {
+    return this.learningContentProducer.getAllLearningContents(query);
   }
 }

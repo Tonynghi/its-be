@@ -3,14 +3,15 @@ import { STORAGE_SERVICE } from '../../storage/storage.module';
 import type { StorageService } from '../../storage/storage.interface';
 import { GetUploadUrlRequestDto, PostContentRequestDto } from '../dtos';
 import { SubjectsService } from './subjects.service';
-import { Model, Types } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import { RpcException } from '@nestjs/microservices';
 import { subjectsErrors } from 'common';
 import { TopicsService } from './topics.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { CONTENT_ITEMS_COLLECTION_NAME } from '../../constants';
-import { ContentItem } from '../schemas';
+import { ContentItem, ContentItemDocument } from '../schemas';
 import { ConfigService } from '@nestjs/config';
+import { LearningContentsFilterQueryRequest } from '../interfaces';
 
 @Injectable()
 export class LearningContentService {
@@ -84,5 +85,74 @@ export class LearningContentService {
       topics: topicIds.map((id) => new Types.ObjectId(id)),
       updatedBy: new Types.ObjectId(userId),
     });
+  }
+
+  public async getAllLearningContents(
+    query: LearningContentsFilterQueryRequest,
+  ) {
+    const { search, currentPage, pageSize, subjectId } = query;
+
+    const filter: FilterQuery<ContentItem> = {
+      $and: [
+        search
+          ? {
+              $or: [{ name: { $regex: search, $options: 'i' } }],
+            }
+          : {},
+        subjectId
+          ? {
+              subject: new Types.ObjectId(subjectId),
+            }
+          : {},
+      ],
+    };
+
+    const totalItems = await this.contentItemsModel.countDocuments(filter);
+    const totalPages = Math.ceil(totalItems / pageSize);
+    const skip = (currentPage - 1) * pageSize;
+
+    const results = await this.contentItemsModel
+      .aggregate<ContentItemDocument[]>([
+        { $match: filter },
+        { $skip: skip },
+        { $limit: pageSize },
+        {
+          $lookup: {
+            from: 'subjects',
+            localField: 'subject',
+            foreignField: '_id',
+            as: 'subject',
+          },
+        },
+        { $unwind: { path: '$subject', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'topics',
+            localField: 'topics',
+            foreignField: '_id',
+            as: 'topics',
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            description: 1,
+            subject: 1,
+            topics: 1,
+            bucket: 1,
+            objectName: 1,
+          },
+        },
+      ])
+      .exec();
+
+    return {
+      totalPages,
+      pageSize,
+      currentPage,
+      totalItems,
+      results,
+    };
   }
 }

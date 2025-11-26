@@ -14,14 +14,15 @@ import {
 } from '../../constants';
 import { stringToNumber } from '../../utils';
 import { SubjectDto } from './subjects.dto';
+import { Types } from 'mongoose';
 
 export class TopicDto {
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
   @Expose()
-  @IsString()
+  @Type(() => SubjectDto)
   subject: SubjectDto;
 
   @Expose()
@@ -59,11 +60,11 @@ export class CreateTopicRequestDto {
 
 export class CreateTopicResponsetDto {
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   subjectId: string;
 
   @Expose()

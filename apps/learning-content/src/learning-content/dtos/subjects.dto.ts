@@ -7,10 +7,11 @@ import {
   PAGE_SIZE_MIN,
   PAGE_SIZE_MAX,
 } from '../../constants';
+import { Types } from 'mongoose';
 
 export class SubjectDto {
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
   @Expose()
@@ -33,7 +34,7 @@ export class CreateSubjectRequestDto {
 
 export class CreateSubjectResponseDto {
   @Expose()
-  @IsString()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
   @Expose()

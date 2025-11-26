@@ -3,6 +3,8 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { LEARNING_CONTENT_TOPICS } from 'common/topics';
 import { LearningContentService } from '../services';
 import {
+  GetAllLearningContentsRequestDto,
+  GetAllLearningContentsResponseDto,
   GetUploadUrlRequestDto,
   GetUploadUrlResponseDto,
   PostContentRequestDto,
@@ -42,6 +44,23 @@ export class LearningContentController {
       },
     );
 
+    return response;
+  }
+
+  @MessagePattern(LEARNING_CONTENT_TOPICS.GET_LEARNING_CONTENTS)
+  async getAllTopics(@Payload() message: GetAllLearningContentsRequestDto) {
+    const request = plainToInstance(GetAllLearningContentsRequestDto, message);
+
+    const result =
+      await this.learningContentService.getAllLearningContents(request);
+
+    const response = plainToInstance(
+      GetAllLearningContentsResponseDto,
+      result,
+      {
+        excludeExtraneousValues: true,
+      },
+    );
     return response;
   }
 }
