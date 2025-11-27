@@ -7,6 +7,7 @@ async function bootstrap() {
     logger: new Logger('API Gateway'),
   });
   app.setGlobalPrefix('api/v1/');
+  app.enableCors();
   await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();
