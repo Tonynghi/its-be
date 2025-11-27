@@ -16,7 +16,7 @@ export class TopicsController {
 
   @Get('/')
   @UseGuards(UserGuard)
-  getAllSubjects(@Query() query: TopicsFilterQueryRequest) {
+  getAllTopics(@Query() query: TopicsFilterQueryRequest) {
     return this.topicsProducer.getAllTopics(query);
   }
 }
