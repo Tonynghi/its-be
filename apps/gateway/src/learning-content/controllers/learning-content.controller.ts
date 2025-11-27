@@ -1,14 +1,34 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { LearningContentProducer } from '../producers';
 import { TutorGuard, UserGuard } from '../../iam/guards';
-import { GetUploadUrlRequestDto, PostContentRequestDto } from '../dtos';
+import {
+  GetDownloadUrlRequestDto,
+  GetUploadUrlRequestDto,
+  PostContentRequestDto,
+} from '../dtos';
 import type { LearningContentsFilterQueryRequest } from '../interfaces';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('content')
 export class LearningContentController {
   constructor(
     private readonly learningContentProducer: LearningContentProducer,
   ) {}
+
+  @Get(':id/download')
+  @UseGuards(UserGuard)
+  async getDownloadContentUrl(@Param('id') id: string) {
+    const request = plainToInstance(GetDownloadUrlRequestDto, { id });
+    return await this.learningContentProducer.getDownloadContentUrl(request);
+  }
 
   @Post('/url')
   @UseGuards(TutorGuard)

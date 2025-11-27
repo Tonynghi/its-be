@@ -18,13 +18,16 @@ import { SubjectDto } from './subjects.dto';
 import { Types } from 'mongoose';
 
 export class ContentItemDto {
+  @Expose()
   @IsString()
   @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
+  @Expose()
   @IsString()
   name: string;
 
+  @Expose()
   @IsString()
   @IsOptional()
   description: string;
@@ -38,11 +41,24 @@ export class ContentItemDto {
   @Type(() => TopicDto)
   topics: TopicDto[];
 
+  @Expose()
   @IsString()
   bucket: string;
 
+  @Expose()
   @IsString()
   objectName: string;
+}
+
+export class GetDownloadUrlRequestDto {
+  @IsString()
+  id: string;
+}
+
+export class GetDownloadUrlResponseDto {
+  @Expose()
+  @IsString()
+  url: string;
 }
 export class GetUploadUrlRequestDto {
   @IsString()
@@ -96,19 +112,24 @@ export class PostContentRequestDto {
 }
 
 export class PostContentResponseDto {
-  @IsString()
+  @Expose()
+  @Transform(({ obj }) => (obj as Types.ObjectId)._id.toString())
   _id: string;
 
+  @Expose()
   @IsString()
   name: string;
 
+  @Expose()
   @IsString()
   @IsOptional()
   description: string;
 
+  @Expose()
   @IsString()
   bucket: string;
 
+  @Expose()
   @IsString()
   objectName: string;
 }
@@ -157,6 +178,6 @@ export class GetAllLearningContentsResponseDto {
   totalItems: number;
 
   @Expose()
-  @Type(() => TopicDto)
-  results: TopicDto[];
+  @Type(() => ContentItemDto)
+  results: ContentItemDto[];
 }

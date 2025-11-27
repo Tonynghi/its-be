@@ -5,6 +5,8 @@ import { LearningContentService } from '../services';
 import {
   GetAllLearningContentsRequestDto,
   GetAllLearningContentsResponseDto,
+  GetDownloadUrlRequestDto,
+  GetDownloadUrlResponseDto,
   GetUploadUrlRequestDto,
   GetUploadUrlResponseDto,
   PostContentRequestDto,
@@ -17,6 +19,22 @@ export class LearningContentController {
   constructor(
     private readonly learningContentService: LearningContentService,
   ) {}
+
+  @MessagePattern(LEARNING_CONTENT_TOPICS.GET_DOWNLOAD_CONTENT_URL)
+  async getDownloadContentUrl(@Payload() message: GetDownloadUrlRequestDto) {
+    const dto = plainToInstance(GetDownloadUrlRequestDto, message);
+
+    const { url } =
+      await this.learningContentService.getContentDownloadUrl(dto);
+
+    const response = plainToInstance(
+      GetDownloadUrlResponseDto,
+      { url },
+      { excludeExtraneousValues: true },
+    );
+
+    return response;
+  }
 
   @MessagePattern(LEARNING_CONTENT_TOPICS.GET_UPLOAD_CONTENT_URL)
   async getUploadContentUrl(@Payload() message: GetUploadUrlRequestDto) {

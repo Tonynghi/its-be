@@ -13,16 +13,17 @@ TOPICS=(
   "topics.create_topic"
   "topics.get_all_topics"
   "learning_content.get_learning_contents"
+  "learning_content.get_download_content_url"
   "learning_content.get_upload_content_url"
   "learning_content.post_content"
 )
 
 echo "Waiting for Kafka broker at $BROKER..."
 
-# until nc -z "$(echo $BROKER | cut -d: -f1)" "$(echo $BROKER | cut -d: -f2)"; do
-#   echo "Kafka is unavailable - sleeping"
-#   sleep 2
-# done
+until nc -z "$(echo $BROKER | cut -d: -f1)" "$(echo $BROKER | cut -d: -f2)"; do
+  echo "Kafka is unavailable - sleeping"
+  sleep 2
+done
 
 echo "Kafka is up. Creating topics..."
 

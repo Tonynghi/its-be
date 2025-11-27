@@ -66,12 +66,14 @@ export class GCSService implements StorageService {
 
   async getReadSignedUrl(objectName: string): Promise<string> {
     const bucketName = this.bucketName;
+    const fileName = this.storage.bucket(bucketName).file(objectName).name;
     const [url] = await this.storage
       .bucket(bucketName)
       .file(objectName)
       .getSignedUrl({
         action: 'read',
         expires: Date.now() + 3600 * 1000,
+        responseDisposition: `attachment; filename="${fileName}"`,
       });
 
     return url;

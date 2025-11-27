@@ -1,11 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { STORAGE_SERVICE } from '../../storage/storage.module';
 import type { StorageService } from '../../storage/storage.interface';
-import { GetUploadUrlRequestDto, PostContentRequestDto } from '../dtos';
+import {
+  GetDownloadUrlRequestDto,
+  GetUploadUrlRequestDto,
+  PostContentRequestDto,
+} from '../dtos';
 import { SubjectsService } from './subjects.service';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { RpcException } from '@nestjs/microservices';
-import { subjectsErrors } from 'common';
+import { learningContentErrors, subjectsErrors } from 'common';
 import { TopicsService } from './topics.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { CONTENT_ITEMS_COLLECTION_NAME } from '../../constants';
@@ -32,6 +36,22 @@ export class LearningContentService {
     subjectId: string;
   }) {
     return `learning-content/${subjectId}/${fileName}`;
+  }
+
+  public async getContentDownloadUrl(dto: GetDownloadUrlRequestDto) {
+    const { id } = dto;
+
+    const content = await this.contentItemsModel.findById(
+      new Types.ObjectId(id),
+    );
+
+    if (!content) {
+      throw new RpcException(learningContentErrors.NOT_FOUND_BY_ID);
+    }
+
+    const url = await this.storageService.getReadSignedUrl(content.objectName);
+
+    return { url };
   }
 
   public async getContentUploadUrl(dto: GetUploadUrlRequestDto) {
